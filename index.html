@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa de trabalho - JavaScript: Comunicação com Servidor 1/2</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <article>
+                    <h1>Rick and Morty</h1>
+                    <h1>Lista de Personagens</h1>
+                    <ul id="ElementoPersonagens" class="list-group"></ul>
+                    <h1>Lista de Episodios</h1>
+                    <ul id="ElementoEpisodios" class="list-group"></ul>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Implemente a comunicação com servidor via HTTP
+        // Method GET
+        
+        async function requererTodosPersonagens() {
+            
+            let respostaServidorPersonagem = await fetch('https://rickandmortyapi.com/api/character');
+            let respostaJSONPersonagem = await respostaServidorPersonagem.json();
+
+            criarListaDePersonagens(respostaJSONPersonagem);
+        }           
+
+        async function requererTodosEpisodios() {
+            let respostaServidorEpisodios = await fetch('https://rickandmortyapi.com/api/episode');
+            let respostaJSONEpisodios = await respostaServidorEpisodios.json();
+
+            criarListaDeEpisodios(respostaJSONEpisodios);
+        }
+
+        // Funções que deverão ser executadas a partir da resposta do servidor
+        function criarListaDePersonagens(personagens) {
+            // Criar um elemento <li class="list-group-item"> para cada personagem.
+                personagens.results.map(personagem => ElementoPersonagens.innerHTML += `
+                <li>${personagem.id} - ${personagem.name}</li>
+                `);
+        }
+
+        function criarListaDeEpisodios(episodios) {
+            // Criar um elemento <li class="list-group-item"> para cada episódio.
+                episodios.results.map(episodio => ElementoEpisodios.innerHTML += `
+                <li>${episodio.id} - ${episodio.name}</li>
+                `);
+        }
+
+        requererTodosPersonagens();
+        requererTodosEpisodios();
+
+    </script>
+</body>
+
+</html>
